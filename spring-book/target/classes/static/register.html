@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <title>注册</title>
+</head>
+<body>
+    <div class="container-login">
+        <div class="container-pic">
+            <img src="pic/computer.png" width="350px">
+        </div>
+        <div class="login-dialog">
+            <h3>注册</h3>
+            <div class="row">
+                <span>用户名</span>
+                <input type="text" name="userName" id="userName" class="form-control">
+            </div>
+            <div class="row">
+                <span>密码</span>
+                <input type="password" name="password" id="password" class="form-control">
+            </div>
+            <div class="row">
+                <label for="confirmPassword">确认密码</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+              </div>
+            <div class="row">
+                <button type="button" class="btn btn-info btn-lg" onclick="register()">注册</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script>
+        function register() {
+            if($("#password").val() != $("#confirmPassword").val()) {
+                alert("密码不一致");
+                return;
+            }
+            $.ajax({
+                url: "/user/register",
+                type: "post",
+                data: {
+                    userName: $("#userName").val(),
+                    password: $("#password").val()
+                },
+                success: function(result) {
+                    if(result.code == "SUCCESS" && result.data == "") {
+                        location.href = "login.html";
+                    }else {
+                        alert(result.errorMessage);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
